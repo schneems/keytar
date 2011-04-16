@@ -66,41 +66,41 @@ Here is a run down of what each does
     User.key_delimeter "|"
     user.redis_key #=> "users|redis"
 
-sets the separating argument in keys
+key_delimeter sets the separating argument in keys
 
     User.key_order [:name, :base]
     user.redis_key #=> "redis:users"
 
-sets the location of key parts, if a symbol is omitted, it will not show up in the final key
+key_order sets the location of key parts, if a symbol is omitted, it will not show up in the final key
     
     User.key_prefix "woot"
     user.redis_key #=> "woot:users:redis"
     
-sets the a prefix to your key for that class
+key_prefix sets the a prefix to your key for that class
 
     User.key_suffix "slave"
     user.redis_key #=> "users:redis:slave"
 
-sets the a suffix to your key for that class
+key_suffix sets the a suffix to your key for that class
 
     User.key_pluralize_instances false
     user.redis_key #=> "user:redis"
     
-allows you to toggle pluralizing instance keys (note the 's' in 'users' is not there)
+key_pluralize_instances allows you to toggle pluralizing instance keys (note the 's' in 'users' is not there)
 
     User.key_plural "uzerz"
     user.redis_key #=> "uzerz:redis"
 
-allows you to over-ride the default pluralize method with custom spelling
+key_plural allows you to over-ride the default pluralize method with custom spelling
 
     User.key_case :upcase
     user.redis_key #=> "USERS:REDIS"
 
-allows you to specify the case of your key
+key_case allows you to specify the case of your key
 
     User.key_unique "username"
 
-by default all instance keys have an identifying unique element included in the key, specifying `key_unique` allows you to change the field that is used to specify a unique key. (defaults to database backed id, but will not use id if object.id == object.object_id)
+`key_unique`: By default all instance keys have an identifying unique element included in the key, specifying `key_unique` allows you to change the field that is used to specify a unique key. (defaults to database backed id, but will not use id if object.id == object.object_id)
 
     user = User.create(:username => "Schneems", :id => 9)
     user.id #=> 9

@@ -15,10 +15,16 @@ Jeweler::Tasks.new do |gem|
   gem.name = "keytar"
   gem.homepage = "http://github.com/Schnems/keytar"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = %Q{A crazy simple library for building keys  (in _key_ value store, not house keys) for Ruby on Rails}
+  gem.description = %Q{
+    Keytar is a Ruby on Rails wrapper for KeyBuilder.
+    Use KeyBuilder to automatically generate keys based on class name instead of cluttering model
+    definitions with tons of redundant key method declarations.
+  }
   gem.email = "richard.schneeman@gmail.com"
   gem.authors = ["Schneems"]
+  gem.add_development_dependency "rspec"
+
   # Include your dependencies below. Runtime dependencies are required when using your gem,
   # and development dependencies are only needed for development (ie running rake tasks, tests, etc)
   #  gem.add_runtime_dependency 'jabber4r', '> 0.1'
@@ -27,24 +33,24 @@ end
 Jeweler::RubygemsDotOrgTasks.new
 
 
-require 'spec/rake/spectask'
-Spec::Rake::SpecTask.new(:spec) do |spec|
-  spec.libs << 'lib' << 'spec'
-  spec.spec_files = FileList['spec/**/*_spec.rb']
-end
-
-Spec::Rake::SpecTask.new(:rcov) do |spec|
-  spec.libs << 'lib' << 'spec'
-  spec.pattern = 'spec/**/*_spec.rb'
-  spec.rcov = true
-end
-
-task :default => :test
+# require 'spec/rake/spectask'
+# Spec::Rake::SpecTask.new(:spec) do |spec|
+#   spec.libs << 'lib' << 'spec'
+#   spec.spec_files = FileList['spec/**/*_spec.rb']
+# end
+#
+# Spec::Rake::SpecTask.new(:rcov) do |spec|
+#   spec.libs << 'lib' << 'spec'
+#   spec.pattern = 'spec/**/*_spec.rb'
+#   spec.rcov = true
+# end
+#
+# task :default => :test
 
 # require 'rake/rdoctask'
 # Rake::RDocTask.new do |rdoc|
 #   version = File.exist?('VERSION') ? File.read('VERSION') : ""
-# 
+#
 #   rdoc.rdoc_dir = 'rdoc'
 #   rdoc.title = "keytar #{version}"
 #   rdoc.rdoc_files.include('README*')
