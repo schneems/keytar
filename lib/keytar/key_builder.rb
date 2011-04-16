@@ -103,13 +103,3 @@ module KeyBuilder
     end
   end
 end
-
-# class Foo
-#   include KeyBuilder
-# end
-#
-# @foo = Foo.new
-# Foo.key_disable_unique true
-# puts @foo.key
-#
-# #puts @foo.key
