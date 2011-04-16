@@ -167,4 +167,7 @@ Since this library is sooooo simple, here is a ASCII keytar for you. Thanks for 
           :,:::,I:,,,:?7=:~~                                                      
           I:,:::::::$7I,:~                                                        
              ,::::~:,7:::                                                         
-                                                                                  
+
+
+Copyright (c) 2011 Schneems. See LICENSE.txt for
+further details.
