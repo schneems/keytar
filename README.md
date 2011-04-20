@@ -2,7 +2,7 @@ Keytar
 ======
 
 **1.** A keyboard that is designed to be played standing up, like a guitar.  
-**2.** A crazy simple ruby-on-rails library for making re-usable keys  
+**2.** A crazy simple ruby-on-rails library for making re-usable keys (the kind you use in key/value stores)
 
 KeyBuilder
 ----------
