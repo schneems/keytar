@@ -20,13 +20,18 @@ module KeyBuilder
     klass.class_eval %{
       extend KeyBuilder::Ext
       # if method_missing doesn't already exist, aliasing and calling it will create an infinite loop
-      @@key_builder_jump_to_superclass = true unless klass.respond_to?("method_missing")
+      @@key_builder_jump_to_superclass = true
+      if klass.respond_to?("method_missing")
+        @@key_builder_jump_to_superclass = false
+        alias :key_builder_alias_method_missing :method_missing
+      end
+
       def self.method_missing(method_name, *args, &blk)
         if method_name.to_s =~ /.*key$/
           self.build_key(:base => self.to_s.downcase, :name => method_name, :args => args)
         else
           if @@key_builder_jump_to_superclass
-            superclass.method_missing(method_name, *args, &blk)
+            super
           else
             key_builder_alias_method_missing(method_name, *args, &blk)
           end
