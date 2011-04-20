@@ -4,25 +4,31 @@ Keytar
 **1.** A keyboard that is designed to be played standing up, like a guitar.  
 **2.** A crazy simple ruby-on-rails library for making re-usable keys  
 
-
-
-Installation
-------------
-    Coming Soon
-    
 KeyBuilder
 ----------
 
-Keytar is a Ruby on Rails wrapper for KeyBuilder. Use KeyBuilder to automatically generate keys based on class name instead of cluttering model definitions with tons of redundant key method declarations. 
+Keytar is a Ruby on Rails gem for KeyBuilder. Use KeyBuilder to automatically generate keys based on class name instead of cluttering model definitions with tons of redundant key method declarations. 
 
 quit littering your code with junk like this:
 
-      def self.some_distributed_no_sql_datastore_key
-        "foo:some_distributed_no_sql_datastore"
+      def some_distributed_no_sql_datastore_key
+        "foos:some_distributed_no_sql_datastore:#{self.id}"
       end
       
 Seriously, quit it
 
+
+
+
+Installation
+------------
+    gem install keytar
+
+in your Gemfile add
+
+    gem 'keytar'
+
+now, you're good to go. See below for examples and config documentation
 
 Example: 
 --------
