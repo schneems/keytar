@@ -22,11 +22,13 @@ Seriously, quit it
 
 Installation
 ------------
-    gem install keytar
-
-in your Gemfile add
+in your Ruby on Rails project Gemfile add
 
     gem 'keytar'
+
+then run
+
+    bundle install
 
 now, you're good to go. See below for examples and config documentation
 
