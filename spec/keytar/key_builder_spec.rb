@@ -1,4 +1,5 @@
-require 'spec_helper'
+require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
+
 
 class Foo
   include KeyBuilder
@@ -132,6 +133,38 @@ describe KeyBuilder do
        foo = Foo.new
        foo.awesome_key.should == "foos:awesome:#{foo.timeish}"
      end
+
+     # todo move tests and assertsions to seperate describe and it blocks
+     it 'should change key_plural' do
+       # variables
+       key_delimiter = "/"
+       key_order = [:prefix, :base, :suffix]
+       key_prefix = "before"
+       key_suffix = "after"
+       key_pluralize_instances = false
+       key_case = :upcase
+       key_plural = "zoosk"
+       key_unique = "doesn-t_apply_to_instance_methods"
+       # config
+       Foo.keyfig :key_delimiter => key_delimiter,
+                  :key_order => key_order,
+                  :key_prefix => key_prefix,
+                  :key_suffix => key_suffix,
+                  :key_pluralize_instances => key_pluralize_instances,
+                  :key_case => key_case,
+                  :key_plural => key_plural,
+                  :key_unique => key_unique
+      # assertions
+      Foo.key_delimiter.should == key_delimiter
+      Foo.key_order.should == key_order
+      Foo.key_prefix.should == key_prefix
+      Foo.key_suffix.should == key_suffix
+      Foo.key_pluralize_instances.should == key_pluralize_instances
+      Foo.key_case.should == key_case
+      Foo.key_plural.should == key_plural
+      Foo.key_unique.should == key_unique
+     end
+
   end
 
 end
