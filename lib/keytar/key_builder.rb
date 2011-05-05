@@ -17,7 +17,7 @@ module KeyBuilder
 
   def self.included(klass)
     # setup method missing on class
-    klass.class_eval %{
+    klass.class_eval do
       extend KeyBuilder::Ext
       # if method_missing doesn't already exist, aliasing and calling it will create an infinite loop
       @@key_builder_jump_to_superclass = true
@@ -37,7 +37,7 @@ module KeyBuilder
           end
         end
       end
-    }
+    end
   end
 
   # class methods to be extended
