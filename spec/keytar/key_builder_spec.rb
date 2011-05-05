@@ -22,6 +22,15 @@ describe KeyBuilder do
       Foo.awesome_key(number).should == "foo:awesome:#{number}"
     end
 
+    it 'should dynamically define a class method capeable of producing different keys' do
+      key1 = Foo.define_method_time_test_key(1)
+      key2 = Foo.define_method_time_test_key(2)
+      Foo.respond_to?(:define_method_time_test_key).should be_true
+      key2.should_not == key1
+    end
+
+
+
     it 'should call method_missing on a non-existant method' do
       begin
         Foo.thismethoddoesnotexist
@@ -48,6 +57,13 @@ describe KeyBuilder do
     it 'should respond to "awesome_key(number)" method by returning :class, :delimiter, :name, :delimiter, :arg' do
       number = rand(100)
       @foo.awesome_key(number).should == "foos:awesome:#{number}"
+    end
+
+    it 'should dynamically define an instance method capeable of producing different keys' do
+      key1 = @foo.define_method_time_test_key(1)
+      key2 = @foo.define_method_time_test_key(2)
+      @foo.respond_to?(:define_method_time_test_key).should be_true
+      key2.should_not == key1
     end
 
     it 'should call method_missing on a non-existant method' do
