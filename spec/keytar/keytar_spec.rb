@@ -1,12 +1,14 @@
-require 'spec_helper'
+require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 ## Gives us ActiveRecord backed model Bar that we can test instances of
 ActiveRecord::Base.establish_connection(
 :adapter => "sqlite3",
 :database => ":memory:",
 :host     => 'localhost')
-ActiveRecord::Migrator.migrate('../../db/migrate', ENV["VERSION"] ? ENV["VERSION"].to_i : nil )
-## Gives us ActiveRecord backed model Bar that we can test instances of
 
+## Gives us ActiveRecord backed model Bar that we can test instances of
+ActiveRecord::Migrator.migrate(
+  File.expand_path(File.dirname(__FILE__) + "../../../db/migrate") ,
+  ENV["VERSION"] ? ENV["VERSION"].to_i : nil )
 
 class Bar < ActiveRecord::Base
 
