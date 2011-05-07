@@ -7,22 +7,22 @@ Keytar
 KeyBuilder
 ----------
 
-Keytar is a Ruby on Rails gem for KeyBuilder. Use KeyBuilder to automatically generate keys based on class name instead of cluttering model definitions with tons of redundant key method declarations. 
+Keytar is an amazingly easy way to auto-magically generate keys for all of your NOSQL key needs. Are you using Redis, Memcache, MongoDB, Cassandra, or another hot key-value store? Then use **keytar**! It automatically generates keys based on class name instead of cluttering model definitions with tons of redundant key method declarations. 
 
-quit littering your code with junk like this:
+___quit___ littering your code with junk like this:
 
+    class User
       def some_distributed_no_sql_datastore_key
         "foos:some_distributed_no_sql_datastore:#{self.id}"
       end
-      
-Seriously, quit it
+    end
 
-
+Seriously, ___quit it___!
 
 
 Installation
 ------------
-in your Ruby on Rails project Gemfile add
+In your Ruby on Rails Gemfile add
 
     gem 'keytar'
 
@@ -30,15 +30,12 @@ then run
 
     bundle install
 
-now, you're good to go. See below for examples and config documentation
+now, you're good to go. Not using RoR? No worries, just drop `include Keytar` in any Ruby model you want.
+
 
 Example: 
 --------
-
-Keytar in action
-
-    class User < ActiveRecord::Base
-    end
+keytar auto-magically generates keys using method names ending in `"_key"` or simply "key".
 
     User.key #=> "user"
     User.memcache_key #=> "user:memcache"
@@ -51,74 +48,81 @@ Keytar in action
     u.sweet_key #=> "users:sweet:2"
     
 
+
 It's that simple
 
 Config
 ------
 
-There's a ton of configuration options. Call the below methods in your class to configure it's options. 
+These options can be configured by passing in a hash to keyfig:
+
+    class User < ActiveRecord::Base
+      keyfig :key_delimiter => ":", :key_order => [:unique, :suffix], :key_prefix => "before"
+    end
+
+Or by calling class methods
 
     class User < ActiveRecord::Base
       key_delimiter ":"
       key_order [:prefix, :base, :name, :unique, :args, :suffix]
       key_prefix nil
-      key_suffix nil
-      key_pluralize_instances true
-      key_plural nil
-      key_case :downcase
-      key_unique "id"
     end
 
+Config Options Breakdown
+------------------------
 Here is a run down of what each does  
+
+**key_delimeter** sets the separating argument in keys
 
     User.key_delimeter "|"
     user.redis_key #=> "users|redis"
 
-key_delimeter sets the separating argument in keys
+
+**key_order** sets the location of key parts, if a symbol is omitted, it will not show up in the final key
 
     User.key_order [:name, :base]
     user.redis_key #=> "redis:users"
-
-key_order sets the location of key parts, if a symbol is omitted, it will not show up in the final key
     
-    User.key_prefix "woot"
-    user.redis_key #=> "woot:users:redis"
-    
-key_prefix sets the a prefix to your key for that class
+**key_unique** sets the unique value of the instance that is used to build the key
 
-    User.key_suffix "slave"
-    user.redis_key #=> "users:redis:slave"
-
-key_suffix sets the a suffix to your key for that class
-
-    User.key_pluralize_instances false
-    user.redis_key #=> "user:redis"
-    
-key_pluralize_instances allows you to toggle pluralizing instance keys (note the 's' in 'users' is not there)
-
-    User.key_plural "uzerz"
-    user.redis_key #=> "uzerz:redis"
-
-key_plural allows you to over-ride the default pluralize method with custom spelling
-
-    User.key_case :upcase
-    user.redis_key #=> "USERS:REDIS"
-
-key_case allows you to specify the case of your key
-
-    User.key_unique "username"
-
-`key_unique`: By default all instance keys have an identifying unique element included in the key, specifying `key_unique` allows you to change the field that is used to specify a unique key. (defaults to database backed id, but will not use id if object.id == object.object_id)
+By default all instance keys have an identifying unique element included in the key, specifying `key_unique` allows you to change the field that is used to specify a unique key. (defaults to database backed id, but will not use id if object.id == object.object_id)
 
     user = User.create(:username => "Schneems", :id => 9)
     user.id #=> 9
     user.redis_key #=> "users:redis:9"
-    
+
     User.key_unique("username")
     user.redis_key #=> "users:redis:schneems"
+
+**key_prefix** sets the a prefix to your key for that class
+
+    User.key_prefix "woot"
+    user.redis_key #=> "woot:users:redis"
     
+**key_suffix** sets the a suffix to your key for that class
+
+    User.key_suffix "slave"
+    user.redis_key #=> "users:redis:slave"
+
+**`key_pluralize_instances`** allows you to toggle pluralizing instance keys (note the 's' in 'users' is not there)
+
+    User.key_pluralize_instances false
+    user.redis_key #=> "user:redis"
     
-    
+
+**key_plural** allows you to over-ride the default pluralize method with custom spelling
+
+    User.key_plural "uzerz"
+    user.redis_key #=> "uzerz:redis"
+
+**key_case** allows you to specify the case of your key
+
+    User.key_case :upcase
+    user.redis_key #=> "USERS:REDIS"
+
+**`key_cache_methods`** will let you toggle whether or not keytar defines your key methods after being called. If you're calling
+these methods over and over, this can give you a speed boost, however there is overhead associated with defining methods. The default
+is on, however try it both ways on your app run some benchmarks and see what works the best.
 
 
 
@@ -175,6 +179,12 @@ Since this library is sooooo simple, here is a ASCII keytar for you. Thanks for 
           :,:::,I:,,,:?7=:~~                                                      
           I:,:::::::$7I,:~                                                        
              ,::::~:,7:::                                                         
+
+
+Contribution
+============
+
+Fork away. If you want to chat about a feature idea, or a question you can find me on the twitters [@schneems](http://twitter.com/schneems).  Put any major changes into feature branches. Make sure all tests stay green, and make sure your changes are covered. 
 
 
 Copyright (c) 2011 Schneems. See LICENSE.txt for
