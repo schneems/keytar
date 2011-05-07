@@ -1,5 +1,5 @@
 require 'rubygems'
-begin; require 'active_record' rescue; end
+begin; require 'active_record'; rescue; end
 
 module Keytar
   autoload :KeyBuilder, 'keytar/key_builder'
