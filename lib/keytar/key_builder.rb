@@ -12,7 +12,8 @@ module KeyBuilder
                 :key_pluralize_instances => true,
                 :key_case => :downcase,
                 :key_plural => nil,
-                :key_unique => "id"
+                :key_unique => "id",
+                :key_cache_methods => true
                 }
 
   def self.included(klass)
@@ -29,11 +30,13 @@ module KeyBuilder
       def self.method_missing(method_name, *args, &blk)
         if method_name.to_s =~ /.*key$/
           ## Performance: define method so we can skip method_missing next time
-          ( class << self;self ;end).instance_eval do
+          if key_cache_methods
+            (class << self;self ;end).instance_eval do
               define_method(method_name) do |*args|
                 build_key(:base => self.to_s.downcase, :name => method_name, :args => args)
               end
             end
+          end
           self.build_key(:base => self.to_s.downcase, :name => method_name, :args => args)
         else
           if @@key_builder_jump_to_superclass
@@ -114,9 +117,11 @@ module KeyBuilder
   def method_missing(method_name, *args, &blk)
     if method_name.to_s =~ /.*key$/
       ## Performance: define method so we can skip method_missing next time
-      self.class.instance_eval do
-        define_method(method_name) do |*args|
-          build_key(method_name, *args)
+      if self.class.key_cache_methods
+        self.class.instance_eval do
+          define_method(method_name) do |*args|
+            build_key(method_name, *args)
+          end
         end
       end
       build_key(method_name, *args)
