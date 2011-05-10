@@ -61,11 +61,12 @@ module KeyBuilder
       }
     end
 
-    def keyfig(options = {})
+    def key_config(options = {})
       options.keys.each do |key|
         eval("@@#{key} = options[key]") if key.to_s =~ /^key_.*/
       end
     end
+    alias :keyfig :key_config
 
     # Call KeyBuilder.build_key or Foo.build_key with options
     # :base => self.to_s.downcase, :name => method_name, :args => args
