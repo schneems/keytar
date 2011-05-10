@@ -5,10 +5,11 @@ ActiveRecord::Base.establish_connection(
 :database => ":memory:",
 :host     => 'localhost')
 
-## Gives us ActiveRecord backed model Bar that we can test instances of
-ActiveRecord::Migrator.migrate(
-  File.expand_path(File.dirname(__FILE__) + "../../../db/migrate") ,
-  ENV["VERSION"] ? ENV["VERSION"].to_i : nil )
+ActiveRecord::Schema.define do
+  create_table :bars do |t|
+    t.string :name, :null => false
+  end
+end
 
 class Bar < ActiveRecord::Base
 
