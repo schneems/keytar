@@ -1,4 +1,3 @@
-require 'rubygems'
 require 'active_support/inflector' # used for pluralize
 require 'active_support/core_ext/object/blank' # used for blank? and present?
 

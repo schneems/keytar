@@ -1,4 +1,3 @@
-require 'rubygems'
 begin; require 'active_record'; rescue; end
 
 module Keytar
