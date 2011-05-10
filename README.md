@@ -72,9 +72,9 @@ Config Options Breakdown
 ------------------------
 Here is a run down of what each does  
 
-**key_delimeter** sets the separating argument in keys
+**key_delimiter** sets the separating argument in keys
 
-    User.key_delimeter "|"
+    User.key_delimiter "|"
     user.redis_key #=> "users|redis"
 
 
