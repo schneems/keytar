@@ -5,8 +5,36 @@ class Foo
   include KeyBuilder
 end
 
-
+## TODO, write unit tests
+## TODO, move these tests into keytar spec which is more general
 describe KeyBuilder do
+  describe 'cache_key' do
+    it 'allows us to pre-define class methods' do
+      Foo.cache_key(:cached_method, :delimiter => "/", :key_prefix => "woo")
+      Foo.respond_to?(:cached_method_key).should be_true
+      puts Foo.cached_method_key(22).should == "woo/foo/cached_method/22"
+    end
+
+    it 'allows us to pre-define instance methods' do
+      Foo.cache_key(:cached_instance_method, :delimiter => "|", :version => "3")
+      @foo = Foo.new
+      @foo.respond_to?(:cached_instance_method_key).should be_true
+      @foo.cached_instance_method_key.should == "foos|cached_instance_method|3"
+    end
+
+    describe 'taking an array' do
+      it 'allows us to pre-define multiple class key methods' do
+        Foo.cache_key(:m1, :m2, :m3, :delimiter => ":", :key_prefix => "foo")
+        Foo.respond_to?(:m1_key).should be_true
+        Foo.respond_to?(:m2_key).should be_true
+        Foo.respond_to?(:m3_key).should be_true
+        @foo = Foo.new
+        @foo.respond_to?(:m1_key).should be_true
+        @foo.respond_to?(:m2_key).should be_true
+        @foo.respond_to?(:m3_key).should be_true
+      end
+    end
+  end
 
   describe 'class methods' do
     it 'should respond to "key" method by returning downcase of class name' do
