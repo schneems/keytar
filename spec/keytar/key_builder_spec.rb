@@ -60,11 +60,7 @@ describe KeyBuilder do
 
 
     it 'should call method_missing on a non-existant method' do
-      begin
-        Foo.thismethoddoesnotexist
-      rescue => ex
-      end
-        ex.class.should == NoMethodError
+        lambda{ Foo.thismethoddoesnotexist }.should raise_error(NoMethodError)
     end
   end
 
@@ -102,11 +98,7 @@ describe KeyBuilder do
     end
 
     it 'should call method_missing on a non-existant method' do
-      begin
-        @foo.thismethoddoesnotexist
-      rescue => ex
-      end
-        ex.class.should == NoMethodError
+        lambda{ @foo.thismethoddoesnotexist }.should raise_error(NoMethodError)
     end
   end
 
