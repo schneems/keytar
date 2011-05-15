@@ -122,7 +122,7 @@ module KeyBuilder
 
   # build_key method for instances by default class is pluralized to create different key
   def build_key(options = {})
-    options[:base] = self.class.to_s.downcase
+    options[:base] = options[:base]||self.class.to_s.downcase
     if (options[:key_pluralize_instances] == true ) || (options[:key_pluralize_instances] != false && self.class.key_pluralize_instances.present?)
       options[:base] =  options[:key_plural]||self.class.key_plural||options[:base].pluralize
     end
