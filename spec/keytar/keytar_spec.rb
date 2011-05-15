@@ -69,13 +69,6 @@ describe Keytar do
       Foo.awesome_key(number).should == "foo:awesome:#{number}"
     end
 
-    it 'should dynamically define a class method capeable of producing different keys' do
-      key1 = Foo.define_method_time_test_key(1)
-      key2 = Foo.define_method_time_test_key(2)
-      Foo.respond_to?(:define_method_time_test_key).should be_true
-      key2.should_not == key1
-    end
-
 
 
     it 'should call method_missing on a non-existant method' do
@@ -102,20 +95,6 @@ describe Keytar do
       @foo.awesome_key(number).should == "foos:awesome:#{number}"
     end
 
-    it 'should dynamically define an instance method capeable of producing different keys' do
-      key1 = @foo.define_method_time_test_key(1)
-      key2 = @foo.define_method_time_test_key(2)
-      @foo.respond_to?(:define_method_time_test_key).should be_true
-      key2.should_not == key1
-    end
-
-    it 'should dynamically define an instance method capeable of producing different keys' do
-      key1 = @foo.define_method_time_test_key(1)
-      key2 = @foo.define_method_time_test_key(2)
-      @foo.respond_to?(:define_method_time_test_key).should be_true
-      key2.should_not == key1
-    end
-
     it 'should call method_missing on a non-existant method' do
         lambda{ @foo.thismethoddoesnotexist }.should raise_error(NoMethodError)
     end
@@ -133,7 +112,6 @@ describe Keytar do
       Foo.key_case KeyBuilder::DEFAULTS[:key_case]
       Foo.key_plural KeyBuilder::DEFAULTS[:key_plural]
       Foo.key_unique KeyBuilder::DEFAULTS[:key_unique]
-      Foo.key_cache_methods KeyBuilder::DEFAULTS[:key_cache_methods]
     end
 
     it 'should change key_delimiter' do
@@ -208,7 +186,6 @@ describe Keytar do
        key_case = :upcase
        key_plural = "zoosk"
        key_unique = "doesn-t_apply_to_instance_methods"
-       key_cache_methods = false
        # config
        Foo.keyfig :key_delimiter => key_delimiter,
                   :key_order => key_order,
@@ -217,8 +194,7 @@ describe Keytar do
                   :key_pluralize_instances => key_pluralize_instances,
                   :key_case => key_case,
                   :key_plural => key_plural,
-                  :key_unique => key_unique,
-                  :key_cache_methods => key_cache_methods
+                  :key_unique => key_unique
       # assertions
       Foo.key_delimiter.should == key_delimiter
       Foo.key_order.should == key_order
@@ -228,13 +204,6 @@ describe Keytar do
       Foo.key_case.should == key_case
       Foo.key_plural.should == key_plural
       Foo.key_unique.should == key_unique
-      Foo.key_cache_methods == key_cache_methods
-     end
-
-     it 'should change key_cache_methods' do
-       Foo.key_cache_methods false
-       key1 = Foo.config_define_method_time_test_key(1)
-       Foo.respond_to?(:config_define_method_time_test_key).should be_false
      end
 
   end
