@@ -113,7 +113,7 @@ module KeyBuilder
 
     # takes input options and turns to a hash, which can be sorted based on key
     def build_key_hash(options)
-      options[:name] = options[:name].to_s.gsub(/(key|_key)/, '')
+      options[:name] = options[:name].to_s.gsub(/(key$|_key$)/, '')
       {:prefix => options[:key_prefix]||self.key_prefix,
        :suffix => options[:key_suffix]||self.key_suffix}.merge(options)
     end
