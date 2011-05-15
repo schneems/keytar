@@ -100,7 +100,7 @@ module KeyBuilder
     # orders the elements based on defaults or config
     def key_hash_to_ordered_array(key_hash)
       key_array ||= []
-      self.key_order.each do |key|
+      (key_hash[:key_order]||self.key_order).each do |key|
         if key != :args
           key_array << key_hash[key]
         else
