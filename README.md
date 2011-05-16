@@ -57,48 +57,39 @@ Keys can be pre-defined and configured on a per key basis by calling **define\_k
 
     class User
       include Keytar
-      define_keys [:zoolander, :something_about_mary, :tropic_thunder], :delimiter => "|", :version => 2
+      define_keys [:friend_ids, :email_subscriptions, :news_feed], :delimiter => "|", :version => "v2"
       define_keys :cassandra, :delimiter => "/", :version => 3, :key_prefix => "lol"
     end
 
-    User.respond_to? :zoolander_key #=> true
-    User.zoolander_key #=> "user|zoolander|2"
+    User.respond_to? :friend_ids_key #=> true
+    User.friend_ids_key #=> "user|friend_ids|v2"
 
 Where the first argument is the key (or keys) to be defined, and the second argument is a hash of configurations. Using **define\_keys** is the recommended configuration method. 
 
 
-options can also be configured per class by passing in a hash to **key_config**:
+global options can also be configured per class by passing in a hash to **key_config**:
 
     class User
       include Keytar
-      key_config :key_delimiter => ":", :key_order => [:unique, :suffix], :key_prefix => "before"
+      key_config :delimiter => ":", :order => [:unique, :suffix], :prefix => "before"
     end
 
-Or by calling class methods
-
-    class User
-      include Keytar
-      key_delimiter ":"
-      key_order [:prefix, :base, :name, :unique, :args, :suffix]
-      key_prefix nil
-    end
-
-Config Options Breakdown
+Configuration Options Breakdown
 ------------------------
 Here is a run down of what each does  
 
-**key_delimiter** sets the separating argument in keys
+**delimiter** sets the separating argument in keys
 
-    User.key_delimiter "|"
+    :delimiter => "|"
     user.redis_key #=> "users|redis"
 
 
-**key_order** sets the location of key parts, if a symbol is omitted, it will not show up in the final key
+**order** sets the location of key parts, if a symbol is omitted, it will not show up in the final key
 
-    User.key_order [:name, :base]
+    :key_order =>[:name, :base]
     user.redis_key #=> "redis:users"
     
-**key_unique** sets the unique value of the instance that is used to build the key
+**unique** sets the unique value of the instance that is used to build the key
 
 By default all instance keys have an identifying unique element included in the key, specifying `key_unique` allows you to change the field that is used to specify a unique key. (defaults to database backed id, but will not use id if object.id == object.object_id)
 
@@ -106,34 +97,34 @@ By default all instance keys have an identifying unique element included in the 
     user.id #=> 9
     user.redis_key #=> "users:redis:9"
 
-    User.key_unique("username")
+    :unique => "username"
     user.username #=> "schneems"
     user.redis_key #=> "users:redis:schneems"
 
-**key_prefix** adds some text to the beginning of your key for that class
+**prefix** adds some text to the beginning of your key for that class
 
-    User.key_prefix "woot"
+    prefix =>  "woot"
     User.redis_key #=> "woot:users:redis"
     
-**key_suffix** adds some text to the end of your key for that class
+**suffix** adds some text to the end of your key for that class
 
-    User.key_suffix "slave"
+    :suffix => "slave"
     User.redis_key #=> "users:redis:slave"
 
-**`key_pluralize_instances`** allows you to toggle pluralizing instance keys (note the 's' in 'users' is not there)
+**`pluralize_instances`** allows you to toggle pluralizing instance keys (note the 's' in 'users' is not there)
 
-    User.key_pluralize_instances false
+    :pluralize_instances => false
     user.redis_key #=> "user:redis"
     
 
-**key_plural** allows you to over-ride the default pluralize method with custom spelling
+**plural** allows you to over-ride the default pluralize method with custom spelling
 
-    User.key_plural "uzerz"
+    :plural => "uzerz"
     user.redis_key #=> "uzerz:redis"
 
-**key_case** allows you to specify the case of your key
+**case** allows you to specify the case of your key
 
-    User.key_case :upcase
+    :case => :upcase
     User.redis_key #=> "USER:REDIS"
 
 
