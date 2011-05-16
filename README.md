@@ -4,10 +4,10 @@ Keytar
 **1.** A keyboard that is designed to be played standing up, like a guitar.  
 **2.** A crazy simple ruby-on-rails library for making re-usable keys (the kind you use in key/value stores)
 
-KeyBuilder
+It Builds Keys
 ----------
 
-Keytar is an amazingly easy way to auto-magically generate keys for all of your NOSQL key needs. Are you using Redis, Memcache, MongoDB, Cassandra, or another hot key-value store? Then use **keytar**! It automatically generates keys based on class name instead of cluttering model definitions with tons of redundant key method declarations. 
+Keytar is an amazingly easy way generate keys for all of your NOSQL key needs. Are you using Redis, Memcache, MongoDB, Cassandra, or another hot key-value store? Then use **keytar**! It auto-magically generates keys based on class name instead of cluttering model definitions with tons of redundant key method declarations. 
 
 ___quit___ littering your code with junk like this:
 
@@ -22,7 +22,7 @@ Seriously, ___quit it___!
 
 Installation
 ------------
-In your Ruby on Rails Gemfile add
+In your Gemfile add
 
     gem 'keytar'
 
@@ -30,19 +30,19 @@ then run
 
     bundle install
 
-now, you're good to go. Not using RoR? No worries, just drop `include Keytar` in any Ruby model you want.
+Then drop `include Keytar` in any Ruby model you want and you're good to go
 
 
 Example: 
 --------
-keytar auto-magically generates keys using method names ending in `"_key"` or simply "key".
+keytar auto-magically generates keys using method names ending in `"_key"` or simply "key"
 
     User.key #=> "user"
     User.memcache_key #=> "user:memcache"
     
     u = User.new
     u.redis_key #=> "users:redis"
-    u.redis_key("some_arguement") #=> "users:redis:some_arguement"
+    u.redis_key("some_argument") #=> "users:redis:some_argument"
     
     u = User.create(:id => 2)
     u.sweet_key #=> "users:sweet:2"
@@ -51,18 +51,33 @@ keytar auto-magically generates keys using method names ending in `"_key"` or si
 
 It's that simple
 
-Config
-------
+Configuration
+-------------
+Keys can be pre-defined and configured on a per key basis by calling **define\_keys**:
 
-These options can be configured by passing in a hash to keyfig:
+    class User
+      include Keytar
+      define_keys [:zoolander, :something_about_mary, :tropic_thunder], :delimiter => "|", :version => 2
+      define_keys :cassandra, :delimiter => "/", :version => 3, :key_prefix => "lol"
+    end
 
-    class User < ActiveRecord::Base
-      keyfig :key_delimiter => ":", :key_order => [:unique, :suffix], :key_prefix => "before"
+    User.respond_to? :zoolander_key #=> true
+    User.zoolander_key #=> "user|zoolander|2"
+
+Where the first argument is the key (or keys) to be defined, and the second argument is a hash of configurations. Using **define\_keys** is the recommended configuration method. 
+
+
+options can also be configured per class by passing in a hash to **key_config**:
+
+    class User
+      include Keytar
+      key_config :key_delimiter => ":", :key_order => [:unique, :suffix], :key_prefix => "before"
     end
 
 Or by calling class methods
 
-    class User < ActiveRecord::Base
+    class User
+      include Keytar
       key_delimiter ":"
       key_order [:prefix, :base, :name, :unique, :args, :suffix]
       key_prefix nil
@@ -92,17 +107,18 @@ By default all instance keys have an identifying unique element included in the 
     user.redis_key #=> "users:redis:9"
 
     User.key_unique("username")
+    user.username #=> "schneems"
     user.redis_key #=> "users:redis:schneems"
 
-**key_prefix** sets the a prefix to your key for that class
+**key_prefix** adds some text to the beginning of your key for that class
 
     User.key_prefix "woot"
-    user.redis_key #=> "woot:users:redis"
+    User.redis_key #=> "woot:users:redis"
     
-**key_suffix** sets the a suffix to your key for that class
+**key_suffix** adds some text to the end of your key for that class
 
     User.key_suffix "slave"
-    user.redis_key #=> "users:redis:slave"
+    User.redis_key #=> "users:redis:slave"
 
 **`key_pluralize_instances`** allows you to toggle pluralizing instance keys (note the 's' in 'users' is not there)
 
@@ -118,12 +134,7 @@ By default all instance keys have an identifying unique element included in the 
 **key_case** allows you to specify the case of your key
 
     User.key_case :upcase
-    user.redis_key #=> "USERS:REDIS"
-
-**`key_cache_methods`** will let you toggle whether or not keytar defines your key methods after being called. If you're calling
-these methods over and over, this can give you a speed boost, however there is overhead associated with defining methods. The default
-is on, however try it both ways on your app run some benchmarks and see what works the best.
-
+    User.redis_key #=> "USER:REDIS"
 
 
 Since this library is sooooo simple, here is a ASCII keytar for you. Thanks for checking it out.
