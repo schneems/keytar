@@ -103,7 +103,7 @@ By default all instance keys have an identifying unique element included in the 
 
 **prefix** adds some text to the beginning of your key for that class
 
-    prefix =>  "woot"
+    :prefix =>  "woot"
     User.redis_key #=> "woot:users:redis"
     
 **suffix** adds some text to the end of your key for that class
