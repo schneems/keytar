@@ -187,14 +187,14 @@ describe Keytar do
        key_plural = "zoosk"
        key_unique = "doesn-t_apply_to_instance_methods"
        # config
-       Foo.keyfig :key_delimiter => key_delimiter,
-                  :key_order => key_order,
-                  :key_prefix => key_prefix,
-                  :key_suffix => key_suffix,
-                  :key_pluralize_instances => key_pluralize_instances,
-                  :key_case => key_case,
-                  :key_plural => key_plural,
-                  :key_unique => key_unique
+       Foo.keyfig :delimiter => key_delimiter,
+                  :order => key_order,
+                  :prefix => key_prefix,
+                  :suffix => key_suffix,
+                  :pluralize_instances => key_pluralize_instances,
+                  :case => key_case,
+                  :plural => key_plural,
+                  :unique => key_unique
       # assertions
       Foo.key_delimiter.should == key_delimiter
       Foo.key_order.should == key_order
