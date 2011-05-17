@@ -1,4 +1,4 @@
-require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
+require 'spec_helper'
 
 ## Gives us ActiveRecord backed model Bar that we can test instances of
 ActiveRecord::Base.establish_connection(
