@@ -129,7 +129,8 @@ module KeyBuilder
     if (options[:key_pluralize_instances] == true ) || (options[:key_pluralize_instances] != false && self.class.key_pluralize_instances.present?)
       options[:base] =  options[:key_plural]||self.class.key_plural||options[:base].pluralize
     end
-    options[:unique] = eval("self.#{options[:key_unique]||self.class.key_unique}") unless eval("self.#{options[:key_unique]||self.class.key_unique}") == object_id
+    unique = self.send "#{options[:key_unique]||self.class.key_unique}".to_sym
+    options[:unique] = unique unless unique == object_id
     self.class.build_key(options)
   end
 
