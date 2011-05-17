@@ -81,7 +81,7 @@ module KeyBuilder
         options["key_#{key}".to_sym] = options[key] if key.to_s !~ /^key_/
       end
       options.keys.each do |key|
-        eval("@@#{key} = options[key]") if key.to_s =~ /^key_.*/
+        eval("@@#{key} = options[key]")
       end
     end
     alias :keyfig :key_config
