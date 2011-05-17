@@ -76,6 +76,7 @@ module KeyBuilder
 
     # a way to define configurations for keytar using a hash
     def key_config(options = {})
+      # allow for loose naming of keys configuration symbols can use :key_prefix or just :prefix
       options.keys.each do |key|
         options["key_#{key}".to_sym] = options[key] if key.to_s !~ /^key_/
       end
