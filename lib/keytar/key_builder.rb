@@ -31,6 +31,7 @@ module KeyBuilder
   module Ext
     # creates class level getter and setter methods for the defaults for config
     DEFAULTS.keys.each do |key|
+      # TODO: re-write without eval
       eval %{
         def #{key}(#{key}_input = :key_default)
           @@#{key} = DEFAULTS[:#{key}] unless defined? @@#{key}
@@ -80,8 +81,8 @@ module KeyBuilder
       options.keys.each do |key|
         options["key_#{key}".to_sym] = options[key] if key.to_s !~ /^key_/
       end
-      options.keys.each do |key|
-        eval("@@#{key} = options[key]")
+      options.each do |key, value|
+        self.send( key , value) if self.respond_to? key
       end
     end
     alias :keyfig :key_config
