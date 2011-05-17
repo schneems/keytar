@@ -67,12 +67,15 @@ Keys can be pre-defined and configured on a per key basis by calling **define\_k
 Where the first argument is the key (or keys) to be defined, and the second argument is a hash of configurations. Using **define\_keys** is the recommended configuration method. 
 
 
-global options can also be configured per class by passing in a hash to **key_config**:
+Global options can also be configured per class by passing in a hash to **key_config**:
 
     class User
       include Keytar
-      key_config :delimiter => ":", :order => [:unique, :suffix], :prefix => "before"
+      key_config :delimiter => "/", :suffix => "after"
+      define_keys :ignored_ids
     end
+
+    User.ignored_ids_key #=> "user/ignored_ids/after"
 
 Configuration Options Breakdown
 ------------------------
@@ -80,51 +83,49 @@ Here is a run down of what each does
 
 **delimiter** sets the separating argument in keys
 
-    :delimiter => "|"
-    user.redis_key #=> "users|redis"
+    define_keys :redis, :delimiter => "|"
+    User.redis_key #=> "user|redis"
 
 
-**order** sets the location of key parts, if a symbol is omitted, it will not show up in the final key
+**order** sets the location of key parts, if a symbol is omitted, it will not show up in the final key (note the location of "redis" and "user" is flipped)
 
-    :key_order =>[:name, :base]
-    user.redis_key #=> "redis:users"
+    define_keys :redis, :order => [:name, :base]
+    User.redis_key #=> "redis:user:1"
     
 **unique** sets the unique value of the instance that is used to build the key
 
 By default all instance keys have an identifying unique element included in the key, specifying `key_unique` allows you to change the field that is used to specify a unique key. (defaults to database backed id, but will not use id if object.id == object.object_id)
 
-    user = User.create(:username => "Schneems", :id => 9)
-    user.id #=> 9
-    user.redis_key #=> "users:redis:9"
+    User.create(:username => "Schneems", :id => 9)
+    User.find(9).redis_key #=> "users:redis:9"
 
-    :unique => "username"
-    user.username #=> "schneems"
-    user.redis_key #=> "users:redis:schneems"
+    define_keys :redis, :unique => "username"
+    User.find(9).redis_key #=> "users:redis:schneems"
 
 **prefix** adds some text to the beginning of your key for that class
 
-    :prefix =>  "woot"
-    User.redis_key #=> "woot:users:redis"
+    define_keys :redis, :prefix =>  "woot"
+    User.redis_key #=> "woot:user:redis"
     
 **suffix** adds some text to the end of your key for that class
 
-    :suffix => "slave"
-    User.redis_key #=> "users:redis:slave"
+    define_keys :redis, :suffix => "slave"
+    User.redis_key #=> "user:redis:slave"
 
 **`pluralize_instances`** allows you to toggle pluralizing instance keys (note the 's' in 'users' is not there)
 
-    :pluralize_instances => false
-    user.redis_key #=> "user:redis"
+    define_keys :redis, :pluralize_instances => false
+    User.find(1).redis_key #=> "user:redis:1"
     
 
 **plural** allows you to over-ride the default pluralize method with custom spelling
 
-    :plural => "uzerz"
-    user.redis_key #=> "uzerz:redis"
+    define_keys :redis, :plural => "uzerz"
+    User.find(1).redis_key #=> "uzerz:redis:1"
 
 **case** allows you to specify the case of your key
 
-    :case => :upcase
+    define_keys :redis, :case => :upcase
     User.redis_key #=> "USER:REDIS"
 
 
