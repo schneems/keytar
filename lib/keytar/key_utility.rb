@@ -9,7 +9,7 @@ module KeyUtility
       def blank?
         respond_to?(:empty?) ? empty? : !self
       end
-      
+
       def present?
         !blank?
       end
@@ -17,7 +17,7 @@ module KeyUtility
   end
 
   unless String.new.respond_to? :pluralize
-    String.class_eval do 
+    String.class_eval do
       def pluralize
         self[(self.length - 1), 1] =~ /s/i ? self : "#{self}s"
       end
