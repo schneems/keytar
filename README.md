@@ -2,9 +2,7 @@ Keytar
 ======
 
 **1.** A keyboard that is designed to be played standing up, like a guitar.  
-**2.** A crazy simple ruby-on-rails library for making re-usable keys (the kind you use in key/value stores)
-It is an amazingly easy way generate keys for all of your NOSQL key needs. Are you using Redis, Memcache, MongoDB, Cassandra, or another hot key-value store? Then use **keytar**! It generates keys based on class name instead of cluttering model definitions with tons of redundant key method declarations. 
-
+**2.** A crazy simple, flexible ruby library for generating NOSQL keys.
 
 It Builds Keys: 
 --------
