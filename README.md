@@ -4,9 +4,9 @@ Keytar
 **1.** A keyboard that is designed to be played standing up, like a guitar.  
 **2.** A crazy simple, flexible ruby library for generating NOSQL keys.
 
-It Builds Keys: 
+It Builds Keys
 --------
-keytar auto-magically generates keys using method names ending in `"_key"` or simply "key"
+keytar auto-magically generates keys using method names ending in `*_key` or simply `key`
 
     User.key #=> "user"
     User.friends_key #=> "user:friends"
@@ -27,7 +27,7 @@ ___quit___ littering your code with junk like this:
       end
     end
 
-Seriously, ___quit it___! Use Keytar instead ^_^
+Use Keytar instead ^_^
 
 
 Installation
@@ -40,8 +40,7 @@ then run
 
     bundle install
 
-Then drop `include Keytar` in any Ruby model you want and you're good to go
-
+drop `include Keytar` in any __Ruby__ model you want and you're good to go
 
 
 It's that simple
