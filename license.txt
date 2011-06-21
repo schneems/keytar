@@ -1,3 +1,5 @@
+licensed under MIT License:
+
 Copyright (c) 2011 Schneems
 
 Permission is hereby granted, free of charge, to any person obtaining

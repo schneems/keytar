@@ -3,11 +3,23 @@ Keytar
 
 **1.** A keyboard that is designed to be played standing up, like a guitar.  
 **2.** A crazy simple ruby-on-rails library for making re-usable keys (the kind you use in key/value stores)
+It is an amazingly easy way generate keys for all of your NOSQL key needs. Are you using Redis, Memcache, MongoDB, Cassandra, or another hot key-value store? Then use **keytar**! It generates keys based on class name instead of cluttering model definitions with tons of redundant key method declarations. 
 
-It Builds Keys
-----------
 
-Keytar is an amazingly easy way generate keys for all of your NOSQL key needs. Are you using Redis, Memcache, MongoDB, Cassandra, or another hot key-value store? Then use **keytar**! It auto-magically generates keys based on class name instead of cluttering model definitions with tons of redundant key method declarations. 
+It Builds Keys: 
+--------
+keytar auto-magically generates keys using method names ending in `"_key"` or simply "key"
+
+    User.key #=> "user"
+    User.friends_key #=> "user:friends"
+    
+    u = User.new
+    u.last_web_access_cache_key #=> "users:last_web_access_cache"
+    u.favorite_spots_key("some_argument") #=> "users:favorite_spots:some_argument"
+    
+    u = User.create(:id => 2)
+    u.sweet_key #=> "users:sweet:2"
+    
 
 ___quit___ littering your code with junk like this:
 
@@ -17,7 +29,7 @@ ___quit___ littering your code with junk like this:
       end
     end
 
-Seriously, ___quit it___!
+Seriously, ___quit it___! Use Keytar instead ^_^
 
 
 Installation
@@ -33,38 +45,23 @@ then run
 Then drop `include Keytar` in any Ruby model you want and you're good to go
 
 
-Example: 
---------
-keytar auto-magically generates keys using method names ending in `"_key"` or simply "key"
-
-    User.key #=> "user"
-    User.friends_key #=> "user:friends"
-    
-    u = User.new
-    u.last_web_access_cache_key #=> "users:last_web_access_cache"
-    u.favorite_spots_key("some_argument") #=> "users:favorite_spots:some_argument"
-    
-    u = User.create(:id => 2)
-    u.sweet_key #=> "users:sweet:2"
-    
-
 
 It's that simple
 
-Configuration
+Define Keys
 -------------
-Keys can be pre-defined and configured on a per key basis by calling **define\_keys**:
+Keys should be pre-defined and configured by calling **define\_keys**:
 
     class User
       include Keytar
-      define_keys [:friend_ids, :email_subscriptions, :news_feed], :delimiter => "|", :version => "v2"
+      define_keys :friend_ids, :email_subscriptions, :news_feed, :delimiter => "|", :version => "v2"
       define_keys :favorite_spots, :delimiter => "/", :version => 3, :key_prefix => "lol"
     end
 
     User.respond_to? :friend_ids_key #=> true
     User.friend_ids_key #=> "user|friend_ids|v2"
 
-Where the first argument is the key (or keys) to be defined, and the second argument is a hash of configurations. Using **define\_keys** is the recommended configuration method. 
+Where the first argument is the key (or keys) to be defined, and the second argument is a hash of configurations.
 
 
 Global options can also be configured per class by passing in a hash to **key_config**:
@@ -90,7 +87,7 @@ Here is a run down of what each does
 **order** sets the location of key parts, if a symbol is omitted, it will not show up in the final key (note the location of "favorite_spots" and "user" is flipped)
 
     define_keys :favorite_spots, :order => [:name, :base]
-    User.favorite_spots_key #=> "favorite_spots:user:1"
+    User.favorite_spots_key #=> "favorite_spots:user"
     
 **unique** sets the unique value of the instance that is used to build the key
 
@@ -190,5 +187,6 @@ Contribution
 Fork away. If you want to chat about a feature idea, or a question you can find me on the twitters [@schneems](http://twitter.com/schneems).  Put any major changes into feature branches. Make sure all tests stay green, and make sure your changes are covered. 
 
 
+licensed under MIT License
 Copyright (c) 2011 Schneems. See LICENSE.txt for
 further details.
