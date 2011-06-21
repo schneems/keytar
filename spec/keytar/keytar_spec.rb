@@ -10,6 +10,9 @@ ActiveRecord::Schema.define do
   create_table :bars do |t|
     t.string :name, :null => false
   end
+  create_table :bar_bazs do |t|
+    t.string :name, :null => false
+  end
 end
 
 class Foo
@@ -24,6 +27,10 @@ class BarNonActiveRecord
 
 end
 
+
+class BarBaz < ActiveRecord::Base
+
+end
 
 describe Keytar do
 
@@ -242,5 +249,19 @@ describe Keytar do
     end
   end
 
+  describe "keytar should not over-ride default method_missing for AR" do
+    before do
+      b = BarBaz.create(:name => "something")
+      @id = b.id
+      Object.instance_eval{ remove_const :BarBaz } ## AR caches methods on object on create, need to pull it from disk
+      class BarBaz < ActiveRecord::Base
+        include Keytar
+        define_key :foo_key
+      end
+    end
 
+    it 'does not interfere with how ActiveRecord generates methods based on column names' do
+      BarBaz.last.id.should == @id
+    end
+  end
 end

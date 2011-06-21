@@ -1,8 +1,6 @@
 require File.join(File.dirname(__FILE__), 'key_utility') ## gives us support for Object#blank, Object#present?, String.pluralize without require ActiveSupport
 
 module KeyBuilder
-  alias :original_method_missing :method_missing
-
   DEFAULTS = {:key_delimiter => ":",
                 :key_order => [:prefix, :base, :name, :unique, :args, :suffix, :version, :v],
                 :key_prefix => nil,
@@ -141,7 +139,7 @@ module KeyBuilder
     if method_name.to_s =~ /.*key$/
       build_key(:name => method_name, :args => args)
     else
-      original_method_missing(method_name, *args, &blk)
+      super
     end
   end
 end
