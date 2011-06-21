@@ -2,7 +2,7 @@ Keytar
 ======
 
 **1.** A keyboard that is designed to be played standing up, like a guitar.  
-**2.** A crazy simple, flexible ruby library for generating NOSQL keys.
+**2.** A crazy simple, flexible ruby library for generating NOSQL keys. Use it with redis, memcache, cassandra, or any other key-value store. 
 
 It Builds Keys
 --------
