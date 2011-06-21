@@ -2,7 +2,7 @@ require File.join(File.dirname(__FILE__), 'key_utility') ## gives us support for
 
 module KeyBuilder
   DEFAULTS = {:key_delimiter => ":",
-                :key_order => [:prefix, :base, :name, :unique, :args, :suffix, :version, :v],
+                :key_order => [:shard, :prefix, :base, :name, :unique, :args, :suffix, :version, :v],
                 :key_prefix => nil,
                 :key_suffix => nil,
                 :key_pluralize_instances => true,

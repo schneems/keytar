@@ -75,7 +75,7 @@ describe KeyBuilder do
       end
 
       it "converts a hash to an array based on default order" do
-        Foo.key_hash_to_ordered_array(@options).should == [@options[:prefix], @options[:base], @options[:name], @options[:unique], @options[:suffix], @options[:version], @options[:v]]
+        Foo.key_hash_to_ordered_array(@options).should == [@options[:shard], @options[:prefix], @options[:base], @options[:name], @options[:unique], @options[:suffix], @options[:version], @options[:v]]
       end
 
       it "order output using direct option before class config" do
