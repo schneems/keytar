@@ -16,7 +16,7 @@ module KeyUtility
     end
   end
 
-  unless String.respond_to? :pluralize
+  unless String.new.respond_to? :pluralize
     String.class_eval do
       def pluralize
         self[(self.length - 1), 1] =~ /s/i ? self : "#{self}s"
