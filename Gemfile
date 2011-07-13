@@ -1,5 +1,5 @@
 source 'http://rubygems.org'
- gem 'activesupport', '~>3.0.4'
+ gem 'activesupport'
 
 group :development, :test do
   gem 'activerecord', '~>3.0.4' ## not needed if you're just using KeyBuilder

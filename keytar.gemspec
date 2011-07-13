@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Schneems"]
-  s.date = %q{2011-07-06}
+  s.date = %q{2011-07-13}
   s.description = %q{
     Keytar is a Ruby on Rails wrapper for KeyBuilder.
     Use KeyBuilder to automatically generate keys based on class name instead of cluttering model
@@ -32,7 +32,6 @@ Gem::Specification.new do |s|
     "lib/.DS_Store",
     "lib/keytar.rb",
     "lib/keytar/key_builder.rb",
-    "lib/keytar/key_utility.rb",
     "license.txt",
     "spec/keytar/key_builder_spec.rb",
     "spec/keytar/keytar_spec.rb",
@@ -53,6 +52,7 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
+      s.add_runtime_dependency(%q<activesupport>, [">= 0"])
       s.add_development_dependency(%q<activerecord>, ["~> 3.0.4"])
       s.add_development_dependency(%q<rake>, ["~> 0.8.7"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.5.2"])
@@ -60,6 +60,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<autotest-growl>, [">= 0"])
       s.add_development_dependency(%q<rspec>, [">= 0"])
     else
+      s.add_dependency(%q<activesupport>, [">= 0"])
       s.add_dependency(%q<activerecord>, ["~> 3.0.4"])
       s.add_dependency(%q<rake>, ["~> 0.8.7"])
       s.add_dependency(%q<jeweler>, ["~> 1.5.2"])
@@ -68,6 +69,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<rspec>, [">= 0"])
     end
   else
+    s.add_dependency(%q<activesupport>, [">= 0"])
     s.add_dependency(%q<activerecord>, ["~> 3.0.4"])
     s.add_dependency(%q<rake>, ["~> 0.8.7"])
     s.add_dependency(%q<jeweler>, ["~> 1.5.2"])
