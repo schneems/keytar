@@ -1,5 +1,3 @@
-require File.join(File.dirname(__FILE__), 'key_utility') ## gives us support for Object#blank, Object#present?, String.pluralize without require ActiveSupport
-
 module KeyBuilder
   DEFAULTS = {:key_delimiter => ":",
                 :key_order => [:shard, :prefix, :base, :name, :unique, :args, :suffix, :version, :v],
