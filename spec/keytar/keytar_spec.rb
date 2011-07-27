@@ -17,19 +17,19 @@ end
 
 class Foo
   include Keytar
+  define_key :awesome
 end
 
 class Bar < ActiveRecord::Base
   include Keytar
+  define_key :awesome
 end
 
 class BarNonActiveRecord
-
 end
 
 
 class BarBaz < ActiveRecord::Base
-
 end
 
 describe Keytar do
@@ -63,10 +63,6 @@ describe Keytar do
   end
 
   describe 'class methods' do
-    it 'should respond to "key" method by returning downcase of class name' do
-      Foo.key.should == "foo"
-    end
-
     it 'should respond to "awesome_key" method by returning :class, :delimiter, :name' do
       Foo.awesome_key.should == "foo:awesome"
     end
@@ -87,10 +83,6 @@ describe Keytar do
   describe 'instance methods' do
     before(:each) do
       @foo = Foo.new
-    end
-
-    it 'should respond to "key" method by returning pluralized downcase of class name' do
-      @foo.key.should == "foos"
     end
 
     it 'should respond to "awesome_key" method by returning :class, :delimiter, :name' do
@@ -179,7 +171,7 @@ describe Keytar do
        Foo.key_unique key_unique
        Foo.key_unique.should == key_unique
        foo = Foo.new
-       foo.awesome_key.should == "foos:awesome:#{foo.timeish}"
+       foo.awesome_key.should include(foo.timeish)
      end
 
      # todo move tests and assertsions to seperate describe and it blocks
@@ -237,6 +229,7 @@ describe Keytar do
       it 'includes keybuilder when it is included' do
         BarNonActiveRecord.class_eval do
           include Keytar
+          define_key :awesome
         end
         describe BarNonActiveRecord.ancestors do
           it {should include( KeyBuilder)}

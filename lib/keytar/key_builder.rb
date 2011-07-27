@@ -12,13 +12,6 @@ module KeyBuilder
     # setup method missing on class
     klass.class_eval do
       extend KeyBuilder::Ext
-      def self.method_missing(method_name, *args, &blk)
-        if method_name.to_s =~ /.*key$/
-          self.build_key(:base => self.to_s.downcase, :name => method_name, :args => args)
-        else
-          super
-        end
-      end
     end
   end
 
@@ -129,15 +122,5 @@ module KeyBuilder
     unique = self.send "#{options[:key_unique]||self.class.key_unique}".to_sym
     options[:unique] = unique unless unique == object_id
     self.class.build_key(options)
-  end
-
-
-
-  def method_missing(method_name, *args, &blk)
-    if method_name.to_s =~ /.*key$/
-      build_key(:name => method_name, :args => args)
-    else
-      super
-    end
   end
 end

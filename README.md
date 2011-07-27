@@ -2,13 +2,15 @@ Keytar
 ======
 
 **1.** A keyboard that is designed to be played standing up, like a guitar.  
-**2.** A crazy simple, flexible ruby library for generating NOSQL keys. Use it with redis, memcache, cassandra, or any other key-value store. 
+**2.** A crazy simple, flexible ruby library for generating NOSQL keys. Use it with redis, memcache, mongo, or any other key-value store. 
 
 It Builds Keys
 --------
-keytar auto-magically generates keys using method names ending in `*_key` or simply `key`
-
-    User.key #=> "user"
+    class User
+      include Keytar
+      define_keys :friends, :last_web_access_cache, :favorite_spots, :sweet
+    end
+    
     User.friends_key #=> "user:friends"
     
     u = User.new
@@ -40,7 +42,7 @@ then run
 
     bundle install
 
-drop `include Keytar` in any __Ruby__ model you want and you're good to go
+drop `include Keytar` in any model you want and you're good to go
 
 
 It's that simple
@@ -52,13 +54,13 @@ Keys should be pre-defined and configured by calling **define\_keys**:
     class User
       include Keytar
       define_keys :friend_ids, :email_subscriptions, :news_feed, :delimiter => "|", :version => "v2"
-      define_keys :favorite_spots, :delimiter => "/", :version => 3, :key_prefix => "lol"
     end
 
     User.respond_to? :friend_ids_key #=> true
     User.friend_ids_key #=> "user|friend_ids|v2"
 
-Where the first argument is the key (or keys) to be defined, and the second argument is a hash of configurations.
+
+Where the first argument is the key (or keys) to be defined, and the second argument is a hash of configuration options.
 
 
 Global options can also be configured per class by passing in a hash to **key_config**:
@@ -88,7 +90,7 @@ Here is a run down of what each does
     
 **unique** sets the unique value of the instance that is used to build the key
 
-By default all instance keys have an identifying unique element included in the key, specifying `key_unique` allows you to change the field that is used to specify a unique key. (defaults to database backed id, but will not use id if object.id == object.object_id)
+By default all instance keys have an identifying unique element included in the key, specifying `key_unique` allows you to change the field that is used to specify a unique key. (defaults to database backed id, Object#id)
 
     User.create(:username => "Schneems", :id => 9)
     User.find(9).favorite_spots_key #=> "users:favorite_spots:9"
