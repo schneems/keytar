@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{keytar}
-  s.version = "1.3.1"
+  s.version = "1.4.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Schneems"]
-  s.date = %q{2011-07-13}
+  s.date = %q{2011-07-27}
   s.description = %q{
     Keytar is a Ruby on Rails wrapper for KeyBuilder.
     Use KeyBuilder to automatically generate keys based on class name instead of cluttering model
