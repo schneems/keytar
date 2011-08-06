@@ -166,7 +166,7 @@ describe Keytar do
      end
 
      it 'should change key_unique' do
-       Foo.class_eval { def timeish; (Time.now.to_i * 0.01).floor; end}
+       Foo.class_eval { def timeish; (Time.now.to_i * 0.01).floor.to_s; end}
        key_unique = :timeish
        Foo.key_unique key_unique
        Foo.key_unique.should == key_unique
