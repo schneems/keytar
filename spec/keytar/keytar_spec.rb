@@ -33,6 +33,15 @@ class BarBaz < ActiveRecord::Base
 end
 
 describe Keytar do
+  describe 'class and instance interference' do
+    it 'should not happen' do
+      bar = Bar.create(:name => "whatever")
+      orig_key =  Bar.awesome_key(bar.id)
+      bar.awesome_key(bar.id)
+      second_key = Bar.awesome_key(bar.id)
+      second_key.should eq(orig_key)
+    end
+  end
 
   describe 'cache_key' do
     it 'allows us to pre-define class methods' do
@@ -257,4 +266,5 @@ describe Keytar do
       BarBaz.last.id.should == @id
     end
   end
+
 end

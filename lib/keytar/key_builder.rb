@@ -40,21 +40,20 @@ module KeyBuilder
       options.keys.each do |key|
         options["key_#{key}".to_sym] = options[key] if key.to_s !~ /^key_/
       end
-
       names.each do |name|
         # define (cache) class method
         (class << self;self ;end).instance_eval do
           define_method("#{name}_key") do |*args|
-            options.merge!(:name => name, :base => self.to_s.downcase, :args => args)
-            build_key(options)
+            build_options = options.merge(:name => name, :base => self.to_s.downcase, :args => args)
+            build_key(build_options)
           end
         end
 
         # define (cache) instance method
         class_eval do
           define_method("#{name}_key") do |*args|
-            options.merge!(:name => name, :args => args)
-            build_key(options)
+            build_options = options.merge(:name => name, :args => args)
+            build_key(build_options)
           end
         end
       end
