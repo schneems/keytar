@@ -14,6 +14,13 @@ describe KeyBuilder do
       @options = {:name => "foo", :args => nil}
     end
 
+    describe 'manually build key' do
+      it 'works' do
+        foo = Foo.new
+        foo.build_key(:name => "method", :args => "args").should eq("foos:method:args")
+      end
+    end
+
     describe 'build_key' do
       it 'calls other class methods' do
         Foo.should_receive(:build_key_hash)
