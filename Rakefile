@@ -17,8 +17,7 @@ Jeweler::Tasks.new do |gem|
   gem.license = "MIT"
   gem.summary = %Q{A crazy simple library for building keys  (in _key_ value store, not house keys) for Ruby on Rails}
   gem.description = %Q{
-    Keytar is a Ruby on Rails wrapper for KeyBuilder.
-    Use KeyBuilder to automatically generate keys based on class name instead of cluttering model
+    Use Keytar to automatically generate keys based on class name instead of cluttering model
     definitions with tons of redundant key method declarations.
   }
   gem.email = "richard.schneeman@gmail.com"

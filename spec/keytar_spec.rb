@@ -46,7 +46,6 @@ describe Keytar do
   describe 'define_key' do
 
     it 'allows us to pre-define instance methods' do
-      pending
       Foo.define_key(:cached_instance_method, :delimiter => "|", :version => "3")
       @foo = Foo.new
       @foo.respond_to?(:cached_instance_method_key).should be_true
@@ -67,7 +66,7 @@ describe Keytar do
     end
   end
 
-  describe 'class methods' do
+  describe 'class methods on Foo' do
     it 'should respond to "awesome_key" method by returning :class, :delimiter, :name' do
       Foo.awesome_key.should == "foo:awesome"
     end
@@ -76,27 +75,19 @@ describe Keytar do
       number = rand(100)
       Foo.awesome_key(number).should == "foo:awesome:#{number}"
     end
-
-
-
-    it 'should call method_missing on a non-existant method' do
-        lambda{ Foo.thismethoddoesnotexist }.should raise_error(NoMethodError)
-    end
   end
 
 
-  describe 'instance methods' do
+  describe 'Foo instance methods' do
     before(:each) do
       @foo = Foo.new
     end
 
     it 'should respond to "awesome_key" method by returning :class, :delimiter, :name' do
-      pending
       @foo.awesome_key.should == "foos:awesome"
     end
 
     it 'should respond to "awesome_key(number)" method by returning :class, :delimiter, :name, :delimiter, :arg' do
-      pending
       number = rand(100)
       @foo.awesome_key(number).should == "foos:awesome:#{number}"
     end
@@ -111,7 +102,6 @@ describe Keytar do
 
   describe 'requiring Keytar' do
     it 'should allow ActiveRecord based objects to use their unique identifiers' do
-      pending
       name = "notblank"
       b = Bar.create(:name => name)
       b.name.should == name
@@ -120,20 +110,20 @@ describe Keytar do
   end
 
   describe 'requiring Keytar with ActiveRecord undefined' do
-    it 'does not automatically add KeyBuilder to the class' do
+    it 'does not automatically add Keytar to the class' do
       describe BarNonActiveRecord.ancestors do
-        it {should_not include( KeyBuilder)}
+        it {should_not include( Keytar)}
       end
     end
 
     describe 'allows non ActiveRecord based classes to use keytar directly' do
-      it 'includes keybuilder when it is included' do
+      it 'includes Keytar when it is included' do
         BarNonActiveRecord.class_eval do
           include Keytar
           define_key :awesome
         end
         describe BarNonActiveRecord.ancestors do
-          it {should include( KeyBuilder)}
+          it {should include( Keytar)}
         end
       end
 
@@ -157,15 +147,5 @@ describe Keytar do
     it 'does not interfere with how ActiveRecord generates methods based on column names' do
       BarBaz.last.id.should == @id
     end
-  end
-
-
-  describe ' advanced args' do
-   it '' do
-     args = {:this_is_a => :hash}
-     puts "================================="
-  #   puts Foo.build_key(:name => "test", :args => args, :base => "foo").should eq("foo:test:{:this_is_a => hash}")
-   end
- 
   end
 end

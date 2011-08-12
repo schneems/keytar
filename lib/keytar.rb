@@ -1,5 +1,4 @@
 require 'active_support/all'
-autoload :KeyBuilder, 'keytar/key_builder'
 
 module Keytar
   extend ActiveSupport::Concern
@@ -9,6 +8,10 @@ module Keytar
                 :key_case => :downcase,
                 :unique   => :id}
 
+
+# cannot change :order
+# can change :unique
+#
   class Key
     attr_accessor :delimiter, :order, :key_case, :options
     def initialize(options = {})
@@ -20,17 +23,11 @@ module Keytar
     end
 
     def key_array
-      order.map do |key|
-        if key != :args
-          options[key].try(:to_s)
-        else
-          options[key].map(&:to_s) unless options[key].blank?
-        end
-      end.flatten.compact
+      order.map {|key| options[key]}.flatten.compact.map(&:to_s)
     end
 
     def to_s
-      key = key_array
+      key = key_array.join(delimiter)
       key = key.send key_case if key_case.present?
       key
     end
@@ -66,8 +63,8 @@ module Keytar
       names = []; options = {}; args.each {|arg| arg.is_a?(Hash) ? options = arg : names << arg}
       names.each do |name|
         name = name.to_s.gsub(/(^key$|_key$)/, '')
-        KeyBuilder.define_key_class_method_on(self, options.merge(:name => name))
-        KeyBuilder.define_key_instance_method_on(self, options.merge(:name => name))
+        Keytar.define_key_class_method_on(self, options.merge(:name => name))
+        Keytar.define_key_instance_method_on(self, options.merge(:name => name))
       end
     end
     alias :define_key  :define_keys
@@ -75,23 +72,25 @@ module Keytar
 
     # a way to define class level configurations for keytar using a hash
     def key_config(options = {})
-        options[:base]  = self.class
-        @key_config     ||= options.reverse_merge(KeyBuilder::DEFAULTS)
+        options[:base]  = self
+        @key_config     ||= options.reverse_merge(Keytar::DEFAULTS)
     end
 
-    # Call KeyBuilder.build_key or Foo.build_key with options
+    # Call Keytar.build_key or Foo.build_key with options
     # :base => self.to_s.downcase, :name => method_name, :args => args
     def build_key(options = {})
-      Key.build(options.reverse_merge(key_config))
+      input = options.reverse_merge(key_config)
+      input.delete(:unique) # class methods don't have a unique key
+      Key.build(input)
     end
   end
 
   # build_key method for instances by default class is pluralized to create different key
   def build_key(options = {})
-    options.reverse_merge(self.class.key_config)
-    unique            = self.send (options.key_config[:key_unique].to_sym)
-    options[:base]    = options[:base].pluralize if options[:pluralize_instances]
-    options[:unique]  = unique unless unique == object_id
+    options.reverse_merge!(self.class.key_config)
+    unique            = method(options[:unique].to_sym).call if respond_to?(options[:unique].to_sym)
+    options[:base]    = options[:base].to_s.pluralize unless options[:pluralize_instances].blank?
+    options[:unique]  = unique && unique == object_id ?  nil  : unique
     Key.build(options)
   end
 end
