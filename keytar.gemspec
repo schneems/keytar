@@ -5,14 +5,13 @@
 
 Gem::Specification.new do |s|
   s.name = %q{keytar}
-  s.version = "1.4.1"
+  s.version = "1.5.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = [%q{Schneems}]
-  s.date = %q{2011-08-08}
+  s.date = %q{2011-08-12}
   s.description = %q{
-    Keytar is a Ruby on Rails wrapper for KeyBuilder.
-    Use KeyBuilder to automatically generate keys based on class name instead of cluttering model
+    Use Keytar to automatically generate keys based on class name instead of cluttering model
     definitions with tons of redundant key method declarations.
   }
   s.email = %q{richard.schneeman@gmail.com}
@@ -31,10 +30,8 @@ Gem::Specification.new do |s|
     "keytar.gemspec",
     "lib/.DS_Store",
     "lib/keytar.rb",
-    "lib/keytar/key_builder.rb",
     "license.txt",
-    "spec/keytar/key_builder_spec.rb",
-    "spec/keytar/keytar_spec.rb",
+    "spec/keytar_spec.rb",
     "spec/spec_helper.rb"
   ]
   s.homepage = %q{http://github.com/Schnems/keytar}
@@ -43,8 +40,7 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.8.6}
   s.summary = %q{A crazy simple library for building keys  (in _key_ value store, not house keys) for Ruby on Rails}
   s.test_files = [
-    "spec/keytar/key_builder_spec.rb",
-    "spec/keytar/keytar_spec.rb",
+    "spec/keytar_spec.rb",
     "spec/spec_helper.rb"
   ]
 
