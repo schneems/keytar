@@ -14,19 +14,19 @@ It Builds Keys
   end
 
   user = User.find(22)
-  user.friends_key  #=> "users:friends:22"
-  User.friends_key  #=> "user:friends"
+  user.friends_key                          #=> "users:friends:22"
+  User.friends_key                          #=> "user:friends"
 
   user = User.find(12)
-  user.favorite_spots_key                  #=> "users:favorite_spots:12"
-  user.favorite_spots_key("some_argument") #=> "users:favorite_spots:12:some_argument"
-  User.favorite_spots_key                  #=> "user:favorite_spots"
+  user.favorite_spots_key                   #=> "users:favorite_spots:12"
+  user.favorite_spots_key("some_argument")  #=> "users:favorite_spots:12:some_argument"
+  User.favorite_spots_key                   #=> "user:favorite_spots"
 
 
   user = User.find(9)
-  user.sweet_key        #=> "users:sweet:9"
-  user.sweet_key("foo") #=> "users:sweet:9:foo"
-  User.sweet_Key        #=> "user:sweet"
+  user.sweet_key                            #=> "users:sweet:9"
+  user.sweet_key("foo")                     #=> "users:sweet:9:foo"
+  User.sweet_Key                            #=> "user:sweet"
 ```
 
 ___quit___ littering your code with junk like this:
