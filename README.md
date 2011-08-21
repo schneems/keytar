@@ -15,12 +15,12 @@ It Builds Keys
 
   User.friends_key #=> "user:friends"
 
-  u = User.new
-  u.last_web_access_cache_key #=> "users:last_web_access_cache"
-  u.favorite_spots_key("some_argument") #=> "users:favorite_spots:some_argument"
+  user = User.find(12)
+  user.favorite_spots_key                  #=> "users:favorite_spots:12"
+  user.favorite_spots_key("some_argument") #=>"users:favorite_spots:12:some_argument"
 
-  u = User.create(:id => 2)
-  u.sweet_key #=> "users:sweet:2"
+  user.sweet_key        #=> "users:sweet:12"
+  user.sweet_key("foo") #=> "users:sweet:12:foo"
 ```
 
 ___quit___ littering your code with junk like this:
@@ -57,11 +57,11 @@ Keys should be pre-defined and configured by calling **define\_keys**:
 ```ruby
   class User
     include Keytar
-    define_keys :friend_ids, :email_subscriptions, :news_feed, :delimiter => "|", :version => "v2"
+    define_keys :friend_ids, :email_subscriptions, :news_feed, :delimiter => "|"
   end
 
-  User.respond_to? :friend_ids_key #=> true
-  User.friend_ids_key #=> "user|friend_ids|v2"
+  User.friend_ids_key         # => "user|friend_ids"
+  User.find(9).friend_ids_key # => "users|friend_ids|9"
 ```
 
 Where the first argument is the key (or keys) to be defined, and the second argument is a hash of configuration options.
@@ -76,8 +76,14 @@ Global options can also be configured per class by passing in a hash to **key_co
     define_keys :ignored_ids
   end
 
-  User.ignored_ids_key #=> "user/ignored_ids/after"
+  User.ignored_ids_key         #=> "user/ignored_ids/after"
+  User.find(9).ignored_ids_key # => "user/ignored_ids/9/after"
 ```
+
+
+But Wait there's more
+---------------------
+Keytar is used to generate keys in my Rails method cache library [JohnnyCache](http://github.com/schneems/johnny_cache)
 
 Configuration Options Breakdown
 ------------------------
