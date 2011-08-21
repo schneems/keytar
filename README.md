@@ -105,6 +105,7 @@ Here is a run down of what each does
 ```
 
 **order** sets the location of key parts, if a symbol is omitted, it will not show up in the final key (note the location of "favorite_spots" and "user" is flipped)
+
 ```ruby
     define_keys :favorite_spots, :order => [:name, :base]
     User.favorite_spots_key #=> "favorite_spots:user"
@@ -135,7 +136,7 @@ By default all instance keys have an identifying unique element included in the 
     User.favorite_spots_key #=> "user:favorite_spots:pow"
 ```
 
-**`pluralize_instances`** allows you to toggle pluralizing instance keys (note the 's' in 'users' is not there)
+**pluralize_instances** allows you to toggle pluralizing instance keys (note the 's' in 'users' is not there)
 
 ```ruby
     define_keys :favorite_spots, :pluralize_instances => false
