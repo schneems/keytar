@@ -10,20 +10,27 @@ It Builds Keys
 ```ruby
   class User
     include Keytar
-    define_keys :friends, :last_web_access_cache, :favorite_spots, :sweet
+    define_keys :friends, :favorite_spots, :sweet
   end
 
-  User.friends_key #=> "user:friends"
+  user = User.find(22)
+  user.friends_key  # => "users:friends:22"
+  User.friends_key  # => "user:friends"
 
   user = User.find(12)
-  user.favorite_spots_key                  #=> "users:favorite_spots:12"
-  user.favorite_spots_key("some_argument") #=>"users:favorite_spots:12:some_argument"
+  user.favorite_spots_key                  # => "users:favorite_spots:12"
+  user.favorite_spots_key("some_argument") # => "users:favorite_spots:12:some_argument"
+  User.favorite_spots_key                  # => "user:favorite_spots"
 
-  user.sweet_key        #=> "users:sweet:12"
-  user.sweet_key("foo") #=> "users:sweet:12:foo"
+
+  user = User.find(9)
+  user.sweet_key        # => "users:sweet:9"
+  user.sweet_key("foo") # => "users:sweet:9:foo"
+  User.sweet_Key        # => "user:sweet"
 ```
 
 ___quit___ littering your code with junk like this:
+
 ```ruby
   class User
     def some_key_for_a_distributed_no_sql_datastore_key
