@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{keytar}
-  s.version = "1.5.1"
+  s.version = "1.5.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = [%q{Schneems}]
-  s.date = %q{2011-08-12}
+  s.date = %q{2011-08-21}
   s.description = %q{
     Use Keytar to automatically generate keys based on class name instead of cluttering model
     definitions with tons of redundant key method declarations.
