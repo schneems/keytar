@@ -28,7 +28,7 @@ module Keytar
 
     def to_s
       key = key_array.join(delimiter)
-      key = key.send key_case if key_case.present?
+      key = key.send key_case if key_case.present? && key.respond_to?(key_case)
       key
     end
 

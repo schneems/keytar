@@ -33,6 +33,7 @@ class BarBaz < ActiveRecord::Base
 end
 
 describe Keytar do
+
   describe 'class and instance interference' do
     it 'should not happen' do
       bar = Bar.create(:name => "whatever")
@@ -44,6 +45,20 @@ describe Keytar do
   end
 
   describe 'define_key' do
+
+    it 'lets us not change key case when :key_case => :none is passed' do
+      Foo.define_key(:cached_instance_method, :key_case => nil)
+      @foo = Foo.new
+      key = @foo.cached_instance_method_key("NotUpCaseOrDownCase")
+      key.should eq("Foos:cached_instance_method:NotUpCaseOrDownCase")
+    end
+
+    it 'lets us not change key case when :key_case => nil is passed' do
+      Foo.define_key(:cached_instance_method, :key_case => nil)
+      @foo = Foo.new
+      key = @foo.cached_instance_method_key("NotUpCaseOrDownCase")
+      key.should eq("Foos:cached_instance_method:NotUpCaseOrDownCase")
+    end
 
     it 'allows us to pre-define instance methods' do
       Foo.define_key(:cached_instance_method, :delimiter => "|", :version => "3")
