@@ -2,6 +2,7 @@ Keytar
 ======
 
 **1.** A keyboard that is designed to be played standing up, like a guitar.
+
 **2.** A crazy simple, flexible ruby library for generating NOSQL keys. Use it with redis, memcache, mongo, or any other key-value store.
 
 It Builds Keys
@@ -90,13 +91,14 @@ Global options can also be configured per class by passing in a hash to **key_co
 
 But Wait there's more
 ---------------------
-Keytar is used to generate keys in my Rails method cache library [JohnnyCache](http://github.com/schneems/johnny_cache)
+Keytar is used to generate keys in my Rails method cache library [JohnnyCache](http://github.com/schneems/johnny_cache). Check it out as an easy way to speed up your rails app and make use of Rails.cache.
 
 Configuration Options Breakdown
 ------------------------
 Here is a run down of what each does
 
 **delimiter** sets the separating argument in keys
+
 ```ruby
     define_keys :favorite_spots, :delimiter => "|"
     User.favorite_spots_key #=> "user|favorite_spots"
