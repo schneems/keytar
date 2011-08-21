@@ -83,7 +83,7 @@ Global options can also be configured per class by passing in a hash to **key_co
     define_keys :ignored_ids
   end
 
-  User.ignored_ids_key         #=> "user/ignored_ids/after"
+  User.ignored_ids_key         # => "user/ignored_ids/after"
   User.find(9).ignored_ids_key # => "user/ignored_ids/9/after"
 ```
 
@@ -99,13 +99,13 @@ Here is a run down of what each does
 **delimiter** sets the separating argument in keys
 ```ruby
     define_keys :favorite_spots, :delimiter => "|"
-    User.favorite_spots_key #=> "user|favorite_spots"
+    User.favorite_spots_key # => "user|favorite_spots"
 ```
 
 **order** sets the location of key parts, if a symbol is omitted, it will not show up in the final key (note the location of "favorite_spots" and "user" is flipped)
 ```ruby
     define_keys :favorite_spots, :order => [:name, :base]
-    User.favorite_spots_key #=> "favorite_spots:user"
+    User.favorite_spots_key # => "favorite_spots:user"
 ```
 **unique** sets the unique value of the instance that is used to build the key
 
@@ -113,45 +113,45 @@ By default all instance keys have an identifying unique element included in the 
 
 ```ruby
     User.create(:username => "Schneems", :id => 9)
-    User.find(9).favorite_spots_key #=> "users:favorite_spots:9"
+    User.find(9).favorite_spots_key # => "users:favorite_spots:9"
 
     define_keys :favorite_spots, :unique => "username"
-    User.find(9).favorite_spots_key #=> "users:favorite_spots:schneems"
+    User.find(9).favorite_spots_key # => "users:favorite_spots:schneems"
 ```
 
 **prefix** adds some text to the beginning of your key for that class
 
 ```ruby
     define_keys :favorite_spots, :prefix =>  "woot"
-    User.favorite_spots_key #=> "woot:user:favorite_spots"
+    User.favorite_spots_key # => "woot:user:favorite_spots"
 ```
 
 **suffix** adds some text to the end of your key for that class
 
 ```ruby
     define_keys :favorite_spots, :suffix => "pow"
-    User.favorite_spots_key #=> "user:favorite_spots:pow"
+    User.favorite_spots_key # => "user:favorite_spots:pow"
 ```
 
 **`pluralize_instances`** allows you to toggle pluralizing instance keys (note the 's' in 'users' is not there)
 
 ```ruby
     define_keys :favorite_spots, :pluralize_instances => false
-    User.find(1).favorite_spots_key #=> "user:favorite_spots:1"
+    User.find(1).favorite_spots_key # => "user:favorite_spots:1"
 ```
 
 **plural** allows you to over-ride the default pluralize method with custom spelling
 
 ```ruby
     define_keys :favorite_spots, :plural => "uzerz"
-    User.find(1).favorite_spots_key #=> "uzerz:favorite_spots:1"
+    User.find(1).favorite_spots_key # => "uzerz:favorite_spots:1"
 ```
 
 **case** allows you to specify the case of your key
 
 ```ruby
     define_keys :favorite_spots, :case => :upcase
-    User.favorite_spots_key #=> "USER:REDIS"
+    User.favorite_spots_key # => "USER:REDIS"
 ```
 
 Since this library is sooooo simple, here is a ASCII keytar for you. Thanks for checking it out.
