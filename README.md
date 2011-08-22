@@ -153,7 +153,7 @@ By default all instance keys have an identifying unique element included in the 
 **case** allows you to specify the case of your key
 
 ```ruby
-    define_keys :favorite_spots, :case => :upcase
+    define_keys :favorite_spots, :key_case => :upcase
     User.favorite_spots_key #=> "USER:REDIS"
 ```
 
