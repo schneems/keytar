@@ -13,7 +13,7 @@ require 'jeweler'
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
   gem.name = "keytar"
-  gem.homepage = "http://github.com/Schnems/keytar"
+  gem.homepage = "http://github.com/schneems/keytar"
   gem.license = "MIT"
   gem.summary = %Q{A crazy simple library for building keys  (in _key_ value store, not house keys) for Ruby on Rails}
   gem.description = %Q{
