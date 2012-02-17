@@ -25,7 +25,6 @@ Gem::Specification.new do |s|
     "VERSION",
     "autotest/discover.rb",
     "keytar.gemspec",
-    "lib/.DS_Store",
     "lib/keytar.rb",
     "license.txt",
     "spec/keytar_spec.rb",
