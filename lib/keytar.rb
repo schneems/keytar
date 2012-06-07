@@ -88,7 +88,7 @@ module Keytar
   # build_key method for instances by default class is pluralized to create different key
   def build_key(options = {})
     options.reverse_merge!(self.class.key_config)
-    unique            = method(options[:unique].to_sym).call if respond_to?(options[:unique].to_sym)
+    unique            = send(options[:unique].to_sym) if respond_to?(options[:unique].to_sym)
     options[:base]    = options[:base].to_s.pluralize unless options[:pluralize_instances].blank?
     options[:unique]  = unique && unique == object_id ?  nil  : unique
     Key.build(options)
